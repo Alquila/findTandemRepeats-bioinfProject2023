@@ -2,9 +2,6 @@ import numpy as np
 import typing
 from node import Node
 
-
-## TODO make new node function
-
 class NaiveSuffixTree():
     """
     Builds a Naive Suffix Tree
