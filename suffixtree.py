@@ -22,9 +22,9 @@ class NaiveSuffixTree():
         leaf_number = 0
         len_seq = len(self.sequence)
         for i in range(len_seq):
-            if current_node.children != []:
+            if current_node.children:
                 for child in current_node.children:
-                    res_idx = traverseTree(i, child.startIndex, child.end_idx)
+                    res_idx = traverseTree(sequence = self.sequence, suffix_idx = i, elem_idx = child.start_idx, elem_end = child.end_idx)
                     if res_idx == -1:
                         # go to Child
                         current_node = child
@@ -52,11 +52,14 @@ class NaiveSuffixTree():
                 new_node = Node(leaf_number, i, (len_seq - 1), parent=current_node)
                 current_node.children.append(new_node)
                 leaf_number += 1
+                
+        return Tree
 
-    def traverseTree(self, suffix_idx, elem_idx, elem_end, res=0):
-        if suffix_idx == elem_end:
-            return -1
-        elif self.sequence[suffix_idx] != self.sequence[elem_idx]:
-            return res
-        else:
-            return traverseTree(suffix_idx + 1, elem_idx + 1, res + 1, elem_end)
+def traverseTree(sequence, suffix_idx, elem_idx, elem_end, res=0):
+    print()
+    if suffix_idx == elem_end:
+        return -1
+    elif sequence[suffix_idx] != sequence[elem_idx]:
+        return res
+    else:
+        return traverseTree(sequence, suffix_idx + 1, elem_idx + 1, elem_end, res + 1)
