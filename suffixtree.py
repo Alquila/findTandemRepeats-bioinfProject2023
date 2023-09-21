@@ -3,7 +3,7 @@ import typing
 from node import Node
 
 
-## TODO make new node function
+#NOTE - change name to suffixtree_naive.py?
 
 class NaiveSuffixTree():
     """
