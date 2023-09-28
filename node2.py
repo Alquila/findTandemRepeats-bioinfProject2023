@@ -15,10 +15,10 @@ class Node2:
             return f"({self.start},{self.end})"
 
 
-def make_new_leaf2(parent, suff_no, len_seq):
+def make_new_leaf2(parent: Node2, suff_no, len_seq: int, letter: str):
     new_leaf = Node2(node_type="leaf",
                      label=suff_no,
                      start=parent.end+1,
                      end=len_seq,
                      parent=parent)
-    parent.children[]
+    parent.children[letter] = new_leaf
