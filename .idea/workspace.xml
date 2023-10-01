@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="eae6b67a-9d93-4345-bc65-38c2a0e895e2" name="Changes" comment="works but empty dicts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node2.py" beforeDir="false" afterPath="$PROJECT_DIR$/node2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/suffixtree2.py" beforeDir="false" afterPath="$PROJECT_DIR$/suffixtree2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

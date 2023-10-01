@@ -39,7 +39,12 @@ def make_new_internal2(seq, child, suff_no: int, split_idx: int, len_seq: int, n
     child_letter = seq[child.start]  # used to save new internal node
     split_letter = seq[split_idx]
     child.start = split_idx
-    new_internal_node.children[split_letter] = child
+    if child.parent.type == "root":
+        new_internal_node.children[split_letter] = child
+    else:
+        children = child.parent.children.copy()
+        new_internal_node.children = children
+
     child.parent.children[child_letter] = new_internal_node  # child's new parent to new_internal_node
 
     leaf = make_new_leaf(seq, new_internal_node, new_leaf_idx, suff_no, len_seq)
