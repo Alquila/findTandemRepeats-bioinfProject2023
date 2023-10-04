@@ -47,8 +47,10 @@ class NaiveSuffixTree2:
                     if testing:
                         print("Added new leaf to parent: " + child_node.label)
                         print("Leaf's parent: " + str(leaf.parent.label))
-                        print("Node: " + str(leaf.parent.label) + "'s Parents Children:" +
+                        print("Node: " + str(leaf.parent.label) + "'s Children:" +
                               str(leaf.parent.children.keys()))
+                        print("Node: " + str(leaf.parent.parent.label) + "'s Children:" +
+                              str(leaf.parent.parent.children.keys()))
                         print("Node: " + str(leaf.label) + "'s Children:" + str(leaf.children.keys()))
                         print("Amount of Nodes: " + str(Nodes))
                         print("\n")
