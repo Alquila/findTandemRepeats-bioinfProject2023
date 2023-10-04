@@ -1,7 +1,7 @@
 from node import Node, make_new_internal_node, make_new_leaf
 
-
 class NaiveSuffixTree:
+#NOTE - change name to suffixtree_naive.py?
     """
     Builds a Naive Suffix Tree
     """
