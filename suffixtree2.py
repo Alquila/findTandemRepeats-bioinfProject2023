@@ -11,7 +11,7 @@ class NaiveSuffixTree2:
 
     def build_tree(self, testing=False):
         # Add root to tree
-        Tree = Node2("root", label="root", start=-1, end=-1, children={})
+        Tree = Node2("root", suffix="root", start=-1, end=-1, children={})
         len_seq = len(self.sequence) - 1
         # Variables needed
         current_node = Tree
@@ -30,8 +30,8 @@ class NaiveSuffixTree2:
                 if testing:
                     print("Added new leaf to root")
                     print("Leaf's parent: " + str(leaf.parent.label))
-                    print("Node: " + str(current_node.label) + "'s Children:" + str(current_node.children.keys()))
-                    print("Node: " + str(leaf.label) + "'s Children - should be empty:" + str(leaf.children.keys()))
+                    print("Node: " + str(current_node.suffix) + "'s Children:" + str(current_node.children.keys()))
+                    print("Node: " + str(leaf.suffix) + "'s Children - should be empty:" + str(leaf.children.keys()))
                     print("Amount of Nodes: " + str(Nodes))
                     print("\n")
 
@@ -45,13 +45,13 @@ class NaiveSuffixTree2:
                     leaf = make_new_leaf(self.sequence, parent, new_leaf_idx, i, len_seq)
                     Nodes += 1
                     if testing:
-                        print("Added new leaf to parent: " + child_node.label)
+                        print("Added new leaf to parent: " + child_node.suffix)
                         print("Leaf's parent: " + str(leaf.parent.label))
                         print("Node: " + str(leaf.parent.label) + "'s Children:" +
                               str(leaf.parent.children.keys()))
                         print("Node: " + str(leaf.parent.parent.label) + "'s Children:" +
                               str(leaf.parent.parent.children.keys()))
-                        print("Node: " + str(leaf.label) + "'s Children:" + str(leaf.children.keys()))
+                        print("Node: " + str(leaf.suffix) + "'s Children:" + str(leaf.children.keys()))
                         print("Amount of Nodes: " + str(Nodes))
                         print("\n")
 
@@ -66,8 +66,8 @@ class NaiveSuffixTree2:
                         print("Leafs parent: " + str(new_leaf.parent.label))
                         print("Node: " + str(internal_node.parent.label) + "'s Children:" + str(
                             internal_node.parent.children.keys()))
-                        print("Node: " + str(internal_node.label) + "'s Children:" + str(internal_node.children.keys()))
-                        print("Node: " + str(new_leaf.label) + "'s Children:" + str(new_leaf.children.keys()))
+                        print("Node: " + str(internal_node.suffix) + "'s Children:" + str(internal_node.children.keys()))
+                        print("Node: " + str(new_leaf.suffix) + "'s Children:" + str(new_leaf.children.keys()))
                         print("Amount of Nodes: " + str(Nodes))
                         print("\n")
                 current_node = Tree

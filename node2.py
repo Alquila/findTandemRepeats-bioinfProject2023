@@ -1,7 +1,7 @@
 class Node2:
-    def __init__(self, node_type: str, label, start: int, end: int, children: dict, depth=None, parent=None):
+    def __init__(self, node_type: str, suffix, start: int, end: int, children: dict, depth=None, parent=None):
         self.type = node_type
-        self.label = label
+        self.suffix = suffix
         self.start = start
         self.end = end
         self.depth = depth
@@ -24,7 +24,7 @@ class Node2:
 def make_new_leaf(seq, parent: Node2, start_idx: int, suff_no: int, len_seq: int):
     # Takes parent
     new_leaf = Node2(node_type="leaf",
-                     label=suff_no,
+                     suffix=suff_no,
                      start=start_idx,
                      end=len_seq,
                      parent=parent,
@@ -36,7 +36,7 @@ def make_new_leaf(seq, parent: Node2, start_idx: int, suff_no: int, len_seq: int
 def make_new_internal2(seq, child, suff_no: int, split_idx: int, len_seq: int, new_leaf_idx: int):
     # Takes child
     new_internal_node = Node2(node_type="internal",
-                              label="i" + str(suff_no),
+                              suffix="i" + str(suff_no),
                               start=child.start,
                               end=split_idx - 1,
                               parent=child.parent,
