@@ -10,6 +10,12 @@ class Node2:
 
         def __str__(self):
             return f"{self.name}({self.depth})"
+        
+        def __repr__(self, level=0):
+            ret = "\t"*level+repr(self.value)+"\n"
+            for child in self.children:
+                ret += child.__repr__(level+1)
+            return ret
 
         def print_path(self):
             return f"({self.start},{self.end})"
