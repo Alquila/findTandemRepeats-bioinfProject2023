@@ -28,13 +28,13 @@ def make_new_internal_node(parent, child_node, length, leaf_number, res_index):
                              start_idx=(parent.end_idx + 1),
                              end_idx=(parent.end_idx + res_index),
                              parent=parent,
-                             children=[])
+                             children={})
     else:
         internal_node = Node(name="internal",
                              start_idx=child_node.start_idx,
                              end_idx=(child_node.start_idx + res_index),
                              parent=parent,
-                             children=[])
+                             children={})
 
     # Make class to handle node. Should be able to handle both internal nodes and leafs
     # node should have a: parent, children,
