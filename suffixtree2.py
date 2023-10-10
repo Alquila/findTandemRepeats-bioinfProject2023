@@ -37,8 +37,7 @@ class NaiveSuffixTree2:
 
             elif (current_node.type == "root") and (letter in current_node.children):
                 current_node = current_node.children[letter]
-                new_node_type, split_index, child_node, new_leaf_idx = traverse_tree2(self.sequence, current_node, i,
-                                                                                      True)
+                new_node_type, split_index, child_node, new_leaf_idx = traverse_tree2(self.sequence, current_node, i, testing)
                 if new_node_type == "leaf":
                     parent = child_node
                     if testing: print("NEW LEAF: " + str(new_leaf_idx))
@@ -75,12 +74,14 @@ class NaiveSuffixTree2:
         if testing:
             print("Nodes made: " + str(Nodes))
             print(Tree.children.keys())
+        
+        return Tree
 
 
 def traverse_tree2(sequence, parent_node: Node2, letter_idx: int, testing=False):
     if testing: print("Traversing tree, i: " + str(letter_idx))
     parent_idx = parent_node.start
-    print("Parent_start " + str(parent_idx) + ", parent_end: " + str(parent_node.end))
+    if testing: print("Parent_start " + str(parent_idx) + ", parent_end: " + str(parent_node.end))
 
     # Calculate range for
     branch_len = parent_node.end - parent_idx + 1
