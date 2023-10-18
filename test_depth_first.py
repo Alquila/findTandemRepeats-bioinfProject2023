@@ -2,6 +2,8 @@
 from suffixtree2 import NaiveSuffixTree2
 from depth_first import depth_first
 from depth_first import leaves_depth_first
+from depth_first import full_depth_first
+from depth_first import full_depth_first_and_array
 
 # our test sequence
 test_seq = "banana$"
@@ -14,4 +16,10 @@ naiveSuffixTree = treeStruct.build_tree(False)
 #depth_first(naiveSuffixTree, testing=True)
 
 # Check the leaf depth first function
-leaves_depth_first(naiveSuffixTree, testing=True)
+#leaves_depth_first(naiveSuffixTree, testing=True)
+
+# Check the full depth first function
+#full_depth_first(naiveSuffixTree, testing=True)
+
+# Check the full depth first and array function
+full_depth_first_and_array(naiveSuffixTree, testing=True)
