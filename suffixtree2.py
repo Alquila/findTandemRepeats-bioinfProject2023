@@ -29,7 +29,7 @@ class NaiveSuffixTree2:
                 Nodes += 1
                 if testing:
                     print("Added new leaf to root")
-                    print("Leaf's parent: " + str(leaf.parent.label))
+                    print("Leaf's parent: " + str(leaf.parent.suffix))
                     print("Node: " + str(current_node.suffix) + "'s Children:" + str(current_node.children.keys()))
                     print("Node: " + str(leaf.suffix) + "'s Children - should be empty:" + str(leaf.children.keys()))
                     print("Amount of Nodes: " + str(Nodes))
@@ -46,10 +46,10 @@ class NaiveSuffixTree2:
                     Nodes += 1
                     if testing:
                         print("Added new leaf to parent: " + child_node.suffix)
-                        print("Leaf's parent: " + str(leaf.parent.label))
-                        print("Node: " + str(leaf.parent.label) + "'s Children:" +
+                        print("Leaf's parent: " + str(leaf.parent.suffix))
+                        print("Node: " + str(leaf.parent.suffix) + "'s Children:" +
                               str(leaf.parent.children.keys()))
-                        print("Node: " + str(leaf.parent.parent.label) + "'s Children:" +
+                        print("Node: " + str(leaf.parent.parent.suffix) + "'s Children:" +
                               str(leaf.parent.parent.children.keys()))
                         print("Node: " + str(leaf.suffix) + "'s Children:" + str(leaf.children.keys()))
                         print("Amount of Nodes: " + str(Nodes))
@@ -62,9 +62,9 @@ class NaiveSuffixTree2:
                     Nodes += 1
                     if testing:
                         print("Make new internal node")
-                        print("Internals nodes parent: " + str(internal_node.parent.label))
-                        print("Leafs parent: " + str(new_leaf.parent.label))
-                        print("Node: " + str(internal_node.parent.label) + "'s Children:" + str(
+                        print("Internals nodes parent: " + str(internal_node.parent.suffix))
+                        print("Leafs parent: " + str(new_leaf.parent.suffix))
+                        print("Node: " + str(internal_node.parent.suffix) + "'s Children:" + str(
                             internal_node.parent.children.keys()))
                         print("Node: " + str(internal_node.suffix) + "'s Children:" + str(internal_node.children.keys()))
                         print("Node: " + str(new_leaf.suffix) + "'s Children:" + str(new_leaf.children.keys()))
@@ -75,6 +75,8 @@ class NaiveSuffixTree2:
         if testing:
             print("Nodes made: " + str(Nodes))
             print(Tree.children.keys())
+
+        print(repr(Tree))
 
 
 def traverse_tree2(sequence, parent_node: Node2, letter_idx: int, testing=False):
@@ -103,3 +105,10 @@ def traverse_tree2(sequence, parent_node: Node2, letter_idx: int, testing=False)
     else:
         if testing: print("next_idx: " + str(next_idx) + ", letter_idx: " + str(letter_idx))
         return "leaf", next_idx, parent_node, (letter_idx)
+
+
+
+def visualise_tree(Tree: Node2, testing=False):
+    if testing: print("Starting visualising tree")
+
+
