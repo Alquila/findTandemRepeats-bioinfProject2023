@@ -6,7 +6,8 @@ from depth_first import full_depth_first
 from depth_first import full_depth_first_and_array
 
 # our test sequence
-test_seq = "banana$"
+test_seq = "abaabaabbba$"
+#test_seq = "banana$"
 
 # Feed it to the suffix tree
 treeStruct = NaiveSuffixTree2(test_seq)
