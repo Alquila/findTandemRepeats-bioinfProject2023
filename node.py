@@ -1,56 +1,80 @@
-import numpy as np
-import typing
-
-#NOTE - Potentialy make the children a dictionary, not a list {"a": None, "c": None, "t"; None, "g": None, "n": None, "$": None}
-# In the fasta reader this would add some steps
-# 1) Make the string in lowercase all the way
-# 2) If the string is not represented by the alphabet (a, c, t, g, n) then either make an error or replace with n
-# Would this be faster if we translated a,c,t,g,n,$ to 0,1,2,3,4,5? Looking up in the dictionary would look like indexing.
-
+from pathlib import Path
 class Node:
-    def __init__(self, name, depth=0, start_idx=0, end_idx=0,
-                 parent=None, children=None):
-        self.name = name
+    def __init__(self, node_type: str, suffix, start: int, end: int, children: dict, depth=None, parent=None):
+        self.type = node_type
+        self.suffix = suffix
+        self.start = start
+        self.end = end
         self.depth = depth
-        self.parent = parent
         self.children = children
-        self.start_idx = start_idx
-        self.end_idx = end_idx
+        self.parent = parent
+
+    def __str__(self):
+        return f"{self.type}({self.suffix})"
+
+    #def __repr__(self, level=0):
+    #    ret = "\t"*level+repr(self.suffix)+"\n"
+    #    for child in self.children:
+    #        ret += child.__repr__(level+1)
+    #    return ret
+
+    def other_name(self, level=0):
+        print('\t' * level + repr(self.suffix))
+        for child in self.children.values():
+            child.other_name(level + 1)
+
+    def print_path(self):
+        return f"({self.start},{self.end})"
+
+    #def print_tree(self, p: Path, last=True, header=''):
+    #    elbow = "└──"
+    #    pipe = "│  "
+    #    tee = "├──"
+    #    blank = "   "
+    #    print(header + (elbow if last else tee) + p.name)
+    #    if p.is_dir():
+    #        children = list(p.iterdir())
+    #        for i, c in enumerate(children):
+    #            print_tree(c, header=header + (blank if last else pipe), last=i == len(children) - 1)
+    #
+    #print_tree(Path("./MNE-001-2014-bids-cache"))
 
 
-        def __str__(self):
-            return f"{self.name}({self.depth})"
+def make_new_leaf(seq, parent: Node, start_idx: int, suff_no: int, len_seq: int):
+    # Takes parent
+    new_leaf = Node(node_type="leaf",
+                    suffix=suff_no,
+                    start=start_idx,
+                    end=len_seq,
+                    parent=parent,
+                    children={})
+    parent.children[seq[start_idx]] = new_leaf
+    return new_leaf
 
 
-def make_new_leaf(parent, index_fix, len_seq, leaf_number):
-    new_leaf_node = Node(name=leaf_number,
-                         start_idx=parent.end_idx + index_fix,
-                         end_idx=len_seq,
-                         parent=parent)
-    parent.children.append(new_leaf_node)
-    # print("I make new leaf")
-    return new_leaf_node
-
-def make_new_internal_node(parent, child_node, length, leaf_number, res_index):
-    if parent.name != "root":
-        internal_node = Node(name="internal",
-                             start_idx=(parent.end_idx + 1),
-                             end_idx=(parent.end_idx + res_index),
-                             parent=parent,
+def make_new_internal2(seq, child, suff_no: int, split_idx: int, len_seq: int, new_leaf_idx: int):
+    # Takes child
+    print("In make new internal node \n")
+    print("path_node ", str(child))
+    print("path_node_parent: ", str(child.parent))
+    new_internal_node = Node(node_type="internal",
+                             suffix="i" + str(suff_no),
+                             start=child.start,
+                             end=split_idx - 1,
+                             parent=child.parent,
                              children={})
-    else:
-        internal_node = Node(name="internal",
-                             start_idx=child_node.start_idx,
-                             end_idx=(child_node.start_idx + res_index),
-                             parent=parent,
-                             children={})
 
-    # Make class to handle node. Should be able to handle both internal nodes and leafs
-    # node should have a: parent, children,
-    parent.children.remove(child_node)
-    parent.children.append(internal_node)
-    internal_node.children.append(child_node)
-    child_node.start_idx = internal_node.end_idx + 1
-    child_node.parent = internal_node
-    leaf = make_new_leaf(internal_node, 1, length, leaf_number)
-    return internal_node, leaf
+    child_letter = seq[child.start]  # used to save new internal node
+    split_letter = seq[split_idx]
+    child.start = split_idx
+    #if child.parent.type == "root":
+    new_internal_node.children[split_letter] = child
+    #else:
+    #    children = child.parent.children.copy()
+    #    new_internal_node.children = children
+
+    child.parent.children[child_letter] = new_internal_node  # child's new parent to new_internal_node
+    child.parent = new_internal_node
+    leaf = make_new_leaf(seq, new_internal_node, new_leaf_idx, suff_no, len_seq)
+    print("new leaf in internal node + parent: " + str(leaf) + ", " + str(leaf.parent))
+    return new_internal_node, leaf
