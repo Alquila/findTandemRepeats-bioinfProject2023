@@ -1,4 +1,5 @@
 from node import Node, make_new_leaf, make_new_internal2
+from depth_first import full_depth_first, full_depth_first_and_array
 
 
 class NaiveSuffixTree:
@@ -22,9 +23,10 @@ class NaiveSuffixTree:
 
         # Build Tree
         for i in range(len_seq + 1):
-            print("\n")
-            Tree.other_name()
-            print("\n")
+            if testing:
+                print("\n")
+                Tree.print_tree()
+                print("\n")
             letter = self.sequence[i]
             if testing: print("Starting sequence: " + str(i) + ", letter is: " + letter)
             if (current_node.type == "root") and (letter not in current_node.children):
@@ -81,9 +83,21 @@ class NaiveSuffixTree:
             print("Nodes made: " + str(Nodes))
             print(Tree.children.keys())
 
+        #full_depth_first(Tree, depth_number=0, testing=False)
+
         print("\n")
-        Tree.other_name()
+        depth_to_leaf = {}
+        leaf_to_depth = {}
+        full_depth_first_and_array(Tree, depth_to_leaf, leaf_to_depth, 0, testing)
+        Tree.print_tree()
         print("\n")
+        Tree.print_tree_2()
+        if testing:
+            print("Depth to suffix: ")
+            print(depth_to_leaf)
+            print("Suffix to depth: ")
+            print(leaf_to_depth)
+            print("\n")
 
         return Tree
 

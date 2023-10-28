@@ -8,6 +8,8 @@ test_dollar_seq = add_dollar_sign(test_seq)
 
 #actual_test_seq = add_dollar_sign(seq_one[0:7])
 actual_test_seq = "abaabaabbba$"
+#actual_test_seq = "banana$"
+
 
 # Feed it to the suffix tree
 #treeStruct = NaiveSuffixTree(actual_test_seq)
@@ -15,7 +17,7 @@ actual_test_seq = "abaabaabbba$"
 
 
 treeStruct = NaiveSuffixTree(actual_test_seq)
-naiveSuffixTree = treeStruct.build_tree(True)
+naiveSuffixTree = treeStruct.build_tree(False)
 
 
 #banana = add_dollar_sign("banana")

@@ -8,5 +8,4 @@ naiveSuffixTree = treeStruct.build_tree(False)
 
 print("__str()__: \n", str(naiveSuffixTree))
 
-print("other_name(): \n")
-naiveSuffixTree.other_name()
+naiveSuffixTree.print_tree()
