@@ -1,4 +1,4 @@
-from node import Node, make_new_leaf, make_new_internal2
+from node import Node, make_new_leaf, make_new_internal_node
 from depth_first import full_depth_first, full_depth_first_and_array
 
 
@@ -14,6 +14,7 @@ class NaiveSuffixTree:
         # Add root to tree
         Tree = Node("root", suffix="root", start=-1, end=-1, children={})
         len_seq = len(self.sequence) - 1
+
         # Variables needed
         current_node = Tree
         Nodes = 1
@@ -28,7 +29,9 @@ class NaiveSuffixTree:
                 Tree.print_tree()
                 print("\n")
             letter = self.sequence[i]
+
             if testing: print("Starting sequence: " + str(i) + ", letter is: " + letter)
+
             if (current_node.type == "root") and (letter not in current_node.children):
                 if testing: print("len_seq: " + str(len_seq))
                 leaf = make_new_leaf(self.sequence, current_node, i, i, len_seq)
@@ -45,7 +48,8 @@ class NaiveSuffixTree:
             elif (current_node.type == "root") and (letter in current_node.children):
                 current_node = current_node.children[letter]
                 if testing: print("current node: ", str(current_node))
-                new_node_type, split_index, path_node, new_leaf_idx = traverse_tree(self.sequence, current_node, i, testing)
+                new_node_type, split_index, path_node, new_leaf_idx = traverse_tree(self.sequence, current_node, i,
+                                                                                    testing)
                 if new_node_type == "leaf":
                     parent = path_node
                     if testing: print("NEW LEAF: " + str(new_leaf_idx))
@@ -63,8 +67,8 @@ class NaiveSuffixTree:
                         print("\n")
 
                 elif new_node_type == "internal":
-                    internal_node, new_leaf = make_new_internal2(self.sequence, path_node, i,
-                                                                 split_index, len_seq, new_leaf_idx)
+                    internal_node, new_leaf = make_new_internal_node(self.sequence, path_node, i,
+                                                                     split_index, len_seq, new_leaf_idx)
                     Nodes += 1
                     Nodes += 1
                     if testing:
@@ -83,15 +87,13 @@ class NaiveSuffixTree:
             print("Nodes made: " + str(Nodes))
             print(Tree.children.keys())
 
-        #full_depth_first(Tree, depth_number=0, testing=False)
-
         print("\n")
         depth_to_leaf = {}
         leaf_to_depth = {}
         full_depth_first_and_array(Tree, depth_to_leaf, leaf_to_depth, 0, testing)
-        Tree.print_tree()
+        Tree.print_tree_lines()
         print("\n")
-        Tree.print_tree_2()
+
         if testing:
             print("Depth to suffix: ")
             print(depth_to_leaf)
@@ -133,4 +135,4 @@ def traverse_tree(sequence, path_node: Node, letter_idx: int, testing=False):
         return traverse_tree(sequence, new_parent, letter_idx, testing)
     else:
         if testing: print("next_idx: " + str(next_idx) + ", letter_idx: " + str(letter_idx))
-        return "leaf", next_idx, path_node, (letter_idx)
+        return "leaf", next_idx, path_node, letter_idx
