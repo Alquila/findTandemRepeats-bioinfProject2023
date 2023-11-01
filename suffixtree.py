@@ -1,118 +1,138 @@
-from node import Node, make_new_internal_node, make_new_leaf
+from node import Node, make_new_leaf, make_new_internal_node
+from depth_first import full_depth_first, full_depth_first_and_array
+
 
 class NaiveSuffixTree:
-#NOTE - change name to suffixtree_naive.py?
     """
-    Builds a Naive Suffix Tree
-    """
+        Builds a Naive Suffix Tree
+        """
 
     def __init__(self, sequence):
         self.sequence = sequence
 
-    def build_tree(self):
+    def build_tree(self, testing=False):
         # Add root to tree
-        Tree = Node("root", children=[])
-        Nodes = []
-        print(self.sequence)
-        # Build tree
+        Tree = Node("root", suffix="root", start=-1, end=-1, children={})
+        len_seq = len(self.sequence) - 1
+
+        # Variables needed
         current_node = Tree
-        leaf_number = 0
-        len_seq = len(self.sequence)
+        Nodes = 1
 
-        for i in range(len_seq):
-        #for i in range(0, 7):
-            print("starting new sequence: " + str(i))
-            if (current_node.name == "root") and (not current_node.children):
-                leaf = make_new_leaf(current_node, i, len_seq, leaf_number)
-                Nodes.append(leaf)
-                # print("leaf put in root " + str(leaf.name))
-                leaf_number += 1
-            elif (current_node.name == "root") and current_node.children:
-                no_match_found = True
-                for child in current_node.children:
-                    print("index i and index child: " + str(i), str(child.start_idx))
-                    if self.sequence[i] == self.sequence[child.start_idx]:
-                        # print("match found between " + str(self.sequence[i]) + " and " + str(self.sequence[child.start_idx]))
-                        no_match_found = False
+        # Testing Print Statements
+        if testing: print("Sequence: \n" + self.sequence + "\nSequence length: " + str(len_seq) + "\n")
 
-                        res_idx = traverse_tree(sequence=self.sequence, suffix_idx=i, child_idx=child.start_idx,
-                                                child_end=child.end_idx)
-                        if res_idx == -1:
-                            # go to Child and continue traverse and/or insert node
-                            print("go to child")
-                            current_node = child
-                            print(current_node.name)
-                        elif res_idx > 0:
-                            # insert new  internal and leaf node
-                            # print("tried to make internal nodes")
-                            internal_node, leaf = make_new_internal_node(current_node, child, len_seq, leaf_number,
-                                                                         res_idx)
-                            Nodes.append(internal_node)
-                            Nodes.append(child)
-                            leaf_number += 1
-                            # print("leaf index of internal leaf: " + str(leaf.name))
-                            current_node = Tree
-                            break
-                if no_match_found:
-                    leaf = make_new_leaf(current_node, i, len_seq, leaf_number)
-                    leaf_number += 1
-                    Nodes.append(leaf)
-                    print("leaf in root " + str(leaf.name))
-                    current_node = Tree
+        # Build Tree
+        for i in range(len_seq + 1):
+            if testing:
+                print("\n")
+                Tree.print_tree()
+                print("\n")
+            letter = self.sequence[i]
 
-        print("length of seq: " + str(len_seq))
-        print("How many nodes? ")
-        print(len(Nodes))
-        print("how many children does tree have")
-        print(len(Tree.children))
+            if testing: print("Starting sequence: " + str(i) + ", letter is: " + letter)
+
+            if (current_node.type == "root") and (letter not in current_node.children):
+                if testing: print("len_seq: " + str(len_seq))
+                leaf = make_new_leaf(self.sequence, current_node, i, i, len_seq)
+                Nodes += 1
+                if testing:
+                    print("Added new leaf to root")
+                    print("Leaf's parent: " + str(leaf.parent.type))
+                    print("Node: " + str(current_node.suffix) + "'s Children:" + str(current_node.children.keys()))
+                    print("Node: " + str(leaf.suffix) + "'s Children - should be empty:" + str(leaf.children.keys()))
+                    print("Amount of Nodes: " + str(Nodes))
+                    print("leafs end: " + str(leaf.end))
+                    print("\n")
+
+            elif (current_node.type == "root") and (letter in current_node.children):
+                current_node = current_node.children[letter]
+                if testing: print("current node: ", str(current_node))
+                new_node_type, split_index, path_node, new_leaf_idx = traverse_tree(self.sequence, current_node, i,
+                                                                                    testing)
+                if new_node_type == "leaf":
+                    parent = path_node
+                    if testing: print("NEW LEAF: " + str(new_leaf_idx))
+                    leaf = make_new_leaf(self.sequence, parent, new_leaf_idx, i, len_seq)
+                    Nodes += 1
+                    if testing:
+                        print("Added new leaf to parent: " + path_node.suffix)
+                        print("Leaf's parent: " + str(leaf.parent.type))
+                        print("Node: " + str(leaf.parent.type) + "'s Children:" +
+                              str(leaf.parent.children.keys()))
+                        print("Node: " + str(leaf.parent.parent.type) + "'s Children:" +
+                              str(leaf.parent.parent.children.keys()))
+                        print("Node: " + str(leaf.suffix) + "'s Children:" + str(leaf.children.keys()))
+                        print("Amount of Nodes: " + str(Nodes))
+                        print("\n")
+
+                elif new_node_type == "internal":
+                    internal_node, new_leaf = make_new_internal_node(self.sequence, path_node, i,
+                                                                     split_index, len_seq, new_leaf_idx)
+                    Nodes += 1
+                    Nodes += 1
+                    if testing:
+                        print("Make new internal node")
+                        print("Internals nodes parent: " + str(internal_node.parent.type))
+                        print("Leafs parent: " + str(new_leaf.parent.type))
+                        print("Node: " + str(internal_node.parent.type) + "'s Children:" + str(
+                            internal_node.parent.children.keys()))
+                        print("Node: " + str(internal_node.suffix) + "'s Children:" + str(internal_node.children.keys()))
+                        print("Node: " + str(new_leaf.suffix) + "'s Children:" + str(new_leaf.children.keys()))
+                        print("Amount of Nodes: " + str(Nodes))
+                        print("\n")
+                current_node = Tree
+
+        if testing:
+            print("Nodes made: " + str(Nodes))
+            print(Tree.children.keys())
+
+        print("\n")
+        depth_to_leaf = {}
+        leaf_to_depth = {}
+        full_depth_first_and_array(Tree, depth_to_leaf, leaf_to_depth, 0, testing)
+        Tree.print_tree_lines()
+        print("\n")
+
+        if testing:
+            print("Depth to suffix: ")
+            print(depth_to_leaf)
+            print("Suffix to depth: ")
+            print(leaf_to_depth)
+            print("\n")
 
         return Tree
 
 
-def traverse_tree(sequence, suffix_idx, child_idx, child_end, res=0):
-    res = res
-    # print("traversing")
-    # print("indexes: " + str(suffix_idx), str(child_idx))
-    if suffix_idx == child_end:
-        # print("check if equal")
-        return -1
-    elif sequence[suffix_idx] != sequence[child_idx]:
-        # print("check if non equal")
-        # print(suffix_idx, sequence[suffix_idx], child_idx, sequence[child_idx])
-        return res
+def traverse_tree(sequence, path_node: Node, letter_idx: int, testing=False):
+    if testing: print("Traversing tree, i: " + str(letter_idx))
+    path_idx = path_node.start
+    if testing:
+        print("Path node: " + str(path_node))
+        print("Path_start " + str(path_idx) + ", parent_end: " + str(path_node.end))
+
+    # Calculate range for
+    branch_len = path_node.end - path_idx + 1
+    new_suffix_len = len(sequence) - letter_idx + 1
+    it = min(branch_len, new_suffix_len)
+    if testing: print("it: min(branch_len, new_suffix_len): " + str(it))
+    for _ in range(0, it):
+        seq_letter = sequence[path_idx]
+        letter = sequence[letter_idx]
+        if testing: print("seq_letter: " + seq_letter + ", letter: " + letter)
+        if letter == seq_letter:
+            path_idx += 1
+            letter_idx += 1
+        else:
+            if testing:
+                print("path_idx: ", str(path_idx))
+                print("path_node: ", str(path_node))
+                print("letter_idx: " + str(letter_idx))
+            return "internal", path_idx, path_node, letter_idx
+    next_idx = letter_idx
+    if sequence[next_idx] in path_node.children:
+        new_parent = path_node.children[sequence[next_idx]]
+        return traverse_tree(sequence, new_parent, letter_idx, testing)
     else:
-        return traverse_tree(sequence, suffix_idx + 1, child_idx + 1, child_end, res + 1)
-
-
-
-
-
-
-
-'''
-            elif current_node.children:
-                for child in current_node.children:
-                    # print("I'm making internal node and leaf")
-                    if self.sequence[i] == self.sequence[child.start_idx]:
-                        res_idx = traverse_tree(sequence=self.sequence, suffix_idx=i, child_idx=child.start_idx,
-                                                child_end=child.end_idx)
-                        if res_idx == -1:
-                            # go to Child and continue traverse and/or insert node
-                            print("go to child")
-                            branch_found = True
-                            current_node = child
-                        elif res_idx > 0:
-                            # insert new  internal and leaf node
-                            internal_node, leaf = make_new_internal_node(current_node, child, len_seq, leaf_number,
-                                                                         res_idx)
-                            Nodes.append(internal_node)
-                            Nodes.append(child)
-                            leaf_number += 1
-                            current_node = Tree
-                            branch_found = True
-                            break
-            elif not branch_found:
-                leaf = make_new_leaf(current_node, 0, len_seq, leaf_number)
-                Nodes.append(leaf)
-                leaf_number += 1
-'''
+        if testing: print("next_idx: " + str(next_idx) + ", letter_idx: " + str(letter_idx))
+        return "leaf", next_idx, path_node, letter_idx

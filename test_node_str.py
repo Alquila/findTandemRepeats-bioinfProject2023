@@ -1,8 +1,11 @@
-from node import Node
 from suffixtree import NaiveSuffixTree
 
-test_string = "catata$"
+test_string = "banana&"
+test_string = "cgtaaca$"
 
-test_tree = NaiveSuffixTree(test_string).buildTree()
+treeStruct = NaiveSuffixTree(test_string)
+naiveSuffixTree = treeStruct.build_tree(False)
 
-print(test_tree)
+print("__str()__: \n", str(naiveSuffixTree))
+
+naiveSuffixTree.print_tree()
