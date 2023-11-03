@@ -1,3 +1,10 @@
+# Depth first names all the leaves in their depth-first order
+# and creates two dictionaries that map suffix to depth-first
+# and vice versa
+
+# Each function is an itteration of the implementation
+# The final function is full_depth_first_and_array
+
 from math import inf as inf
 from node import Node
 
@@ -15,7 +22,7 @@ def depth_first(node, depth_number=0, testing=False):
                 print("Current child: " + str(child))
                 print("Current depth: " + str(depth_number))
             current_node = node.children[child]
-            current_node.depth = depth_number
+            current_node.depth_first = depth_number
             depth_number += 1
             depth_number = depth_first(current_node, depth_number, testing)
     return depth_number
@@ -32,7 +39,7 @@ def leaves_depth_first(node, depth_number=0, testing=False):
             current_node = node.children[child]
             if current_node.type == "leaf":
                 if testing: print("Giving " + str(child) + " depth number : " + str(depth_number))
-                current_node.depth = depth_number
+                current_node.depth_first = depth_number
                 depth_number += 1
             depth_number = leaves_depth_first(current_node, depth_number, testing)
     return depth_number
@@ -42,11 +49,11 @@ def leaves_depth_first(node, depth_number=0, testing=False):
 def full_depth_first(node: Node, depth_number=0, testing=False):
     children = sorted(list(node.children.keys()))
     if node.type == "internal" or node.type == "root":
-        node.depth = [inf, -inf]
+        node.depth_first = [inf, -inf]
         if testing:
             print("In  " + str(node.type))
             print("With children : " + str(children))
-            print("Current min,max is : " + str(node.depth))
+            print("Current min,max is : " + str(node.depth_first))
         for child in children:
             current_node = node.children[child]
             if testing: print("Going to : " + str(child))
@@ -54,66 +61,64 @@ def full_depth_first(node: Node, depth_number=0, testing=False):
             if testing:
                 print("Returned : " + str(new_number))
                 print("Depth is : " + str(depth_number))
-                print("Current min,max is: " + str(node.depth))
+                print("Current min,max is: " + str(node.depth_first))
             if type(new_number) is list:
                 if testing:
                     print("returned a List")
-                    print(str(new_number[0]) + ' < ' + str(node.depth[0]) + ' ?')
-                if new_number[0] < node.depth[0]:
-                    node.depth[0] = new_number[0]
-                if testing: print(str(new_number[1]) + ' < ' + str(node.depth[1]) + ' ?')
-                if new_number[1] > node.depth[1]:
-                    node.depth[1] = new_number[1]
-                if testing: print("List: New min,max is: " + str(node.depth))
+                    print(str(new_number[0]) + ' < ' + str(node.depth_first[0]) + ' ?')
+                if new_number[0] < node.depth_first[0]:
+                    node.depth_first[0] = new_number[0]
+                if testing: print(str(new_number[1]) + ' < ' + str(node.depth_first[1]) + ' ?')
+                if new_number[1] > node.depth_first[1]:
+                    node.depth_first[1] = new_number[1]
+                if testing: print("List: New min,max is: " + str(node.depth_first))
             else:
                 if testing:
                     print("returned a single number")
-                    print(str(new_number) + ' < ' + str(node.depth[0]) + ' ?')
-                if new_number < node.depth[0]:
-                    node.depth[0] = new_number
-                if testing: print(str(new_number) + ' > ' + str(node.depth[1]) + ' ?')
-                if new_number > node.depth[1]:
-                    node.depth[1] = new_number
-                if testing: print("Non list: New min,max is: " + str(node.depth))
-        return node.depth, depth_number
+                    print(str(new_number) + ' < ' + str(node.depth_first[0]) + ' ?')
+                if new_number < node.depth_first[0]:
+                    node.depth_first[0] = new_number
+                if testing: print(str(new_number) + ' > ' + str(node.depth_first[1]) + ' ?')
+                if new_number > node.depth_first[1]:
+                    node.depth_first[1] = new_number
+                if testing: print("Non list: New min,max is: " + str(node.depth_first))
+        return node.depth_first, depth_number
     if node.type == "leaf":
         if testing:
             print("In type " + str(node.type))
             print("Giving depth number : " + str(depth_number))
-        node.depth = depth_number
+        node.depth_first = depth_number
         depth_number += 1
         return depth_number - 1, depth_number
     return None
 
 
 # Create the array
-def full_depth_first_and_array(Node,depth_to_leaf, leaf_to_depth, depth_number=0, testing=False):
-    #depth_to_leaf = {}
-    #leaf_to_depth = {}
+def full_depth_first_and_array(Node, depth_to_suffix, suffix_to_depth, depth_number=0, testing=False):
     children = sorted(list(Node.children.keys()))
     if Node.type == "internal" or Node.type == "root":
-        Node.depth = [inf, -inf]
+        Node.depth_first = [inf, -inf]
         for child in children:
             current_node = Node.children[child]
-            new_number, depth_number = full_depth_first_and_array(current_node, depth_to_leaf, leaf_to_depth, depth_number, testing)
+            new_number, depth_number = full_depth_first_and_array(current_node, depth_to_suffix, suffix_to_depth, depth_number, testing)
             if type(new_number) is list:
-                if new_number[0] < Node.depth[0]:
-                    Node.depth[0] = new_number[0]
-                if new_number[1] > Node.depth[1]:
-                    Node.depth[1] = new_number[1]
+                if new_number[0] < Node.depth_first[0]:
+                    Node.depth_first[0] = new_number[0]
+                if new_number[1] > Node.depth_first[1]:
+                    Node.depth_first[1] = new_number[1]
             else:
-                if new_number < Node.depth[0]:
-                    Node.depth[0] = new_number
-                if new_number > Node.depth[1]:
-                    Node.depth[1] = new_number
-        return Node.depth, depth_number
+                if new_number < Node.depth_first[0]:
+                    Node.depth_first[0] = new_number
+                if new_number > Node.depth_first[1]:
+                    Node.depth_first[1] = new_number
+        return Node.depth_first, depth_number
     if Node.type == "leaf":
-        depth_to_leaf[depth_number] = Node.suffix
-        leaf_to_depth[Node.suffix] = depth_number
+        depth_to_suffix[depth_number] = Node.suffix
+        suffix_to_depth[Node.suffix] = depth_number
         if testing:
             print("depth_to_leaf[" + str(depth_number) + "] = " + str(Node.suffix))
             print("leaf_to_depth[" + str(Node.suffix) + "] = " + str(depth_number))
-        Node.depth = depth_number
+        Node.depth_first = depth_number
         depth_number += 1
         return depth_number - 1, depth_number
     return None

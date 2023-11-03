@@ -88,17 +88,17 @@ class NaiveSuffixTree:
             print(Tree.children.keys())
 
         print("\n")
-        depth_to_leaf = {}
-        leaf_to_depth = {}
-        full_depth_first_and_array(Tree, depth_to_leaf, leaf_to_depth, 0, testing)
+        depthfirst_to_suffix = {}
+        suffix_to_depthfirst = {}
+        full_depth_first_and_array(Tree, depthfirst_to_suffix, suffix_to_depthfirst, 0, testing)
         Tree.print_tree_lines()
         print("\n")
 
         if testing:
-            print("Depth to suffix: ")
-            print(depth_to_leaf)
-            print("Suffix to depth: ")
-            print(leaf_to_depth)
+            print("Depth-first to suffix: ")
+            print(depthfirst_to_suffix)
+            print("Suffix to depth-first: ")
+            print(suffix_to_depthfirst)
             print("\n")
 
         return Tree
