@@ -10,7 +10,7 @@ class NaiveSuffixTree:
     def __init__(self, sequence):
         self.sequence = sequence
 
-    def build_tree(self, testing=False):
+    def build_tree(self, testing=False, arrays=False):
         # Add root to tree
         Tree = Node("root", suffix="root", start=-1, end=-1, children={})
         len_seq = len(self.sequence) - 1
@@ -102,6 +102,9 @@ class NaiveSuffixTree:
             print("\n")
 
         string_depth(Tree, testing)
+
+        if arrays:
+            return Tree, depthfirst_to_suffix, suffix_to_depthfirst
 
         return Tree
 

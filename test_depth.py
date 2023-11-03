@@ -13,7 +13,7 @@ test_seq = "banana$"
 
 # Feed it to the suffix tree
 treeStruct = NaiveSuffixTree(test_seq)
-naiveSuffixTree = treeStruct.build_tree(False)
+naiveSuffixTree = treeStruct.build_tree(False, False)
 
 # Check the depth first function
 #depth_first(naiveSuffixTree, testing=True)
