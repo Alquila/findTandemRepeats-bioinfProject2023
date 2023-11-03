@@ -5,7 +5,7 @@ class Node:
         self.start = start
         self.end = end
         self.depth_first = depth_first
-        self.depth = depth
+        self.string_depth = depth
         self.children = children
         self.parent = parent
 

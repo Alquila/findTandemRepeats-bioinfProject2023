@@ -1,5 +1,5 @@
 from node import Node, make_new_leaf, make_new_internal_node
-from depth_first import full_depth_first, full_depth_first_and_array
+from depth import full_depth_first_and_array, string_depth
 
 
 class NaiveSuffixTree:
@@ -100,6 +100,8 @@ class NaiveSuffixTree:
             print("Suffix to depth-first: ")
             print(suffix_to_depthfirst)
             print("\n")
+
+        string_depth(Tree, testing)
 
         return Tree
 
