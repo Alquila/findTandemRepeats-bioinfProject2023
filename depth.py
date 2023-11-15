@@ -102,7 +102,7 @@ def full_depth_first_and_array(Node, depth_to_suffix, suffix_to_depth, depth_num
         Node.depth_first = [inf, -inf]
         for child in children:
             current_node = Node.children[child]
-            new_number, depth_number = full_depth_first_and_array(current_node, depth_to_suffix, suffix_to_depth, depth_number, testing)
+            new_number, depth_number, depth_to_suffix, suffix_to_depth = full_depth_first_and_array(current_node, depth_to_suffix, suffix_to_depth, depth_number, testing)
             if type(new_number) is list:
                 if new_number[0] < Node.depth_first[0]:
                     Node.depth_first[0] = new_number[0]
@@ -113,7 +113,7 @@ def full_depth_first_and_array(Node, depth_to_suffix, suffix_to_depth, depth_num
                     Node.depth_first[0] = new_number
                 if new_number > Node.depth_first[1]:
                     Node.depth_first[1] = new_number
-        return Node.depth_first, depth_number
+        return Node.depth_first, depth_number, depth_to_suffix, suffix_to_depth
     if Node.type == "leaf":
         depth_to_suffix[depth_number] = Node.suffix
         suffix_to_depth[Node.suffix] = depth_number
@@ -122,8 +122,8 @@ def full_depth_first_and_array(Node, depth_to_suffix, suffix_to_depth, depth_num
             print("leaf_to_depth[" + str(Node.suffix) + "] = " + str(depth_number))
         Node.depth_first = depth_number
         depth_number += 1
-        return depth_number - 1, depth_number
-    return None
+        return depth_number - 1, depth_number, depth_to_suffix, suffix_to_depth
+    return depth_number - 1, depth_number, depth_to_suffix, suffix_to_depth
 
 # --------------------------------------------------------------------------------------
 
