@@ -1,15 +1,6 @@
 from suffixtree import NaiveSuffixTree
 from node import Node
 
-test_seq = "abccbccanan$"
-
-# Feed it to the suffix tree
-treeStruct = NaiveSuffixTree(test_seq)
-naiveSuffixTree, depthfirst_to_suffix, _ = treeStruct.build_tree(testing=False, arrays=True)
-
-naiveSuffixTree.print_tree_lines()
-
-
 def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
     if testing: print('str(node) = ' + str(node))
 
@@ -47,4 +38,8 @@ def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
 
     return tandem_repeat_list
 
-print(basic_stoye_gusfield(naiveSuffixTree, depthfirst_to_suffix, test_seq, True))
+def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
+    
+    #TODO - the code
+
+    return None
