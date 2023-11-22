@@ -1,11 +1,11 @@
 class Node:
-    def __init__(self, node_type: str, suffix, start: int, end: int, children: dict, depth_first=None, depth=None, parent=None):
+    def __init__(self, node_type: str, suffix, start: int, end: int, children: dict, depth_first=None, string_depth=None, parent=None):
         self.type = node_type
         self.suffix = suffix
         self.start = start
         self.end = end
         self.depth_first = depth_first
-        self.string_depth = depth
+        self.string_depth = string_depth
         self.children = children
         self.parent = parent
 

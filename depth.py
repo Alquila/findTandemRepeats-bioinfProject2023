@@ -120,7 +120,7 @@ def full_depth_first_and_array(Node, depth_to_suffix, suffix_to_depth, depth_num
         if testing:
             print("depth_to_leaf[" + str(depth_number) + "] = " + str(Node.suffix))
             print("leaf_to_depth[" + str(Node.suffix) + "] = " + str(depth_number))
-        Node.depth_first = depth_number
+        Node.depth_first = [depth_number, depth_number]
         depth_number += 1
         return depth_number - 1, depth_number, depth_to_suffix, suffix_to_depth
     return depth_number - 1, depth_number, depth_to_suffix, suffix_to_depth
