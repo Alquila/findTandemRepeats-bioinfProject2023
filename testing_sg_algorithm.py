@@ -5,6 +5,7 @@ test_seq_1 = "banana$"
 test_seq_2 = "cgtaacaagg$"
 test_seq_3 = "abaabaabbba$"
 test_seq_4 = "heliliillihehehheel$"
+test_seq_5 = "mississippi$"
 
 # Feed it to the suffix tree
 treeStruct = NaiveSuffixTree(test_seq_1)
@@ -24,4 +25,4 @@ optimised_tr = stoye_gusfield(naiveSuffixTree, depthfirst_to_suffix, test_seq_1,
 
 #print(left_rotation(optimised_tr, test_seq_1))
 
-print(stupid_algorithm(test_seq_4))
+print(stupid_algorithm(test_seq_5))
