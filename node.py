@@ -1,18 +1,19 @@
 class Node:
-    def __init__(self, node_type: str, suffix, start: int, end: int, children: dict, depth=None, parent=None):
+    def __init__(self, node_type: str, suffix, start: int, end: int, children: dict, depth_first=None, string_depth=None, parent=None):
         self.type = node_type
         self.suffix = suffix
         self.start = start
         self.end = end
-        self.depth = depth
+        self.depth_first = depth_first
+        self.string_depth = string_depth
         self.children = children
         self.parent = parent
 
     def __str__(self):
-        return f"{self.suffix}: {self.depth}"
+        return f"{self.suffix}: {self.depth_first}"
 
     def print_tree(self, level=0):
-        print('\t' * level + repr(self.suffix) + ": " + repr(self.depth))
+        print('\t' * level + repr(self.suffix) + ": " + repr(self.depth_first))
         for child in self.children.values():
             child.print_tree(level + 1)
 
@@ -21,7 +22,7 @@ class Node:
         elbow = "   └── "
         pipe = "   │  "
         tee = "   ├── "
-        repr_suffix = repr(self.suffix) + ": " + repr(self.depth)
+        repr_suffix = repr(self.suffix) + ": " + repr(self.depth_first)
         print(repr_suffix) if self.type == "root" else print(header + (elbow if last else tee) + repr_suffix)
         for i, child in enumerate(self.children.values()):
             child.print_tree_lines(level + 1, last=(i == len(self.children) - 1),
