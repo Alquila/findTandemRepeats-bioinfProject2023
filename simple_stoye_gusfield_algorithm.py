@@ -114,3 +114,15 @@ def left_rotation(tandem_repeats, sequence):
             j-=1
     return tandem_repeats + rotated_tr
 
+
+
+def stupid_algorithm(sequence):
+    tandem_repeats = []
+    for i in range(0, len(sequence)-1):
+        for j in range(i+2, len(sequence)-1):
+            length = j - i
+            if sequence[i:j] == sequence[i + length:j + length]:
+                tandem_repeats.append([i, length])
+    return tandem_repeats
+
+
