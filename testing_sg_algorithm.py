@@ -1,5 +1,5 @@
 from suffixtree import NaiveSuffixTree
-from simple_stoye_gusfield_algorithm import basic_stoye_gusfield, stoye_gusfield, left_rotation, stupid_algorithm
+from stoye_gusfield_algorithm import basic_stoye_gusfield, stoye_gusfield, left_rotation, stupid_algorithm
 
 test_seq_1 = "banana$"
 test_seq_2 = "cgtaacaagg$"
