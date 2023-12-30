@@ -87,12 +87,14 @@ def test_running_time():
         no = i + 1
         count.append(no)
     print(count)
-    print(slow_times)
+    print("Slow times: " + str(slow_times))
+    print("Basic SG-times: " + str(basic_times))
+    print("Optimized times: " + str(optimised_times))
     # PLOT Naive
     plt.title('Running time')
     plt.xlabel('Test sequences')
     plt.ylabel('Time (ns)')
-    plt.xscale('log')
+    #plt.xscale('log')
     plt.yscale('log')
     plt.scatter(count, slow_times, c='gold')
     plt.scatter(count, basic_times, c='blue')
