@@ -1,6 +1,7 @@
 from suffixtree import NaiveSuffixTree
 from stoye_gusfield_algorithm import basic_stoye_gusfield, stoye_gusfield, stupid_algorithm, left_rotation
 from loopdy_loop import basic_stoye_gusfield_loopy, stoye_gusfield_loopy
+from dict_to_list import dict_to_list
 import time
 
 def add_dollar_sign(sequence):
@@ -47,10 +48,11 @@ def main_time(algorithm: str, sequence: str):
             tree_struct = NaiveSuffixTree(sequence)
             suffixtree, depthfirst_to_suffix, _ = tree_struct.build_tree(False, True)
             print("made tree for basic")
+            depthfirst_to_suffix_list = dict_to_list(depthfirst_to_suffix)
             #suffixtree.print_tree()
             start_time = time.time_ns()
             #tandem_repeats = basic_stoye_gusfield(suffixtree, depthfirst_to_suffix, sequence, False)
-            tandem_repeats = basic_stoye_gusfield_loopy(suffixtree, depthfirst_to_suffix, sequence, False)
+            tandem_repeats = basic_stoye_gusfield_loopy(suffixtree, depthfirst_to_suffix_list, sequence, False)
             end_time = time.time_ns()
             tr_lr = left_rotation(tandem_repeats, sequence)
             #print("Tandem Repeats found using the basic Stoye-Gusfield algorithm: " + str(tandem_repeats))
@@ -63,9 +65,10 @@ def main_time(algorithm: str, sequence: str):
             suffixtree, depthfirst_to_suffix, _ = tree_struct.build_tree(False, True)
             #suffixtree.print_tree()
             print("made tree for optimized")
+            depthfirst_to_suffix_list = dict_to_list(depthfirst_to_suffix)
             start_time = time.time_ns()
             #tandem_repeats = stoye_gusfield(suffixtree, depthfirst_to_suffix, sequence, False)
-            tandem_repeats = stoye_gusfield_loopy(suffixtree, depthfirst_to_suffix, sequence, False)
+            tandem_repeats = stoye_gusfield_loopy(suffixtree, depthfirst_to_suffix_list, sequence, False)
             end_time = time.time_ns()
             tr_lr = left_rotation(tandem_repeats, sequence)
             print("Number of Tandem Repeats found using the optimized Stoye-Gusfield algorithm: " + str(len(tr_lr)))
