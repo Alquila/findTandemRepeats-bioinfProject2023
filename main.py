@@ -1,5 +1,5 @@
 from suffixtree import NaiveSuffixTree
-from stoye_gusfield_algorithm import basic_stoye_gusfield, stoye_gusfield, stupid_algorithm
+from stoye_gusfield_algorithm import basic_stoye_gusfield, stoye_gusfield, stupid_algorithm, left_rotation
 from loopdy_loop import basic_stoye_gusfield_loopy, stoye_gusfield_loopy
 import time
 
@@ -52,11 +52,12 @@ def main_time(algorithm: str, sequence: str):
             #tandem_repeats = basic_stoye_gusfield(suffixtree, depthfirst_to_suffix, sequence, False)
             tandem_repeats = basic_stoye_gusfield_loopy(suffixtree, depthfirst_to_suffix, sequence, False)
             end_time = time.time_ns()
+            tr_lr = left_rotation(tandem_repeats, sequence)
             #print("Tandem Repeats found using the basic Stoye-Gusfield algorithm: " + str(tandem_repeats))
-            print("Number of Tandem Repeats found using the basic Stoye-Gusfield algorithm: " + str(len(tandem_repeats)))
+            print("Number of Tandem Repeats found using the basic Stoye-Gusfield algorithm: " + str(len(tr_lr)))
             final_time = end_time - start_time
             print("done w. basic")
-            return tandem_repeats, final_time
+            return tr_lr, final_time
         case "optimized":
             tree_struct = NaiveSuffixTree(sequence)
             suffixtree, depthfirst_to_suffix, _ = tree_struct.build_tree(False, True)
@@ -66,10 +67,11 @@ def main_time(algorithm: str, sequence: str):
             #tandem_repeats = stoye_gusfield(suffixtree, depthfirst_to_suffix, sequence, False)
             tandem_repeats = stoye_gusfield_loopy(suffixtree, depthfirst_to_suffix, sequence, False)
             end_time = time.time_ns()
-            print("Number of Tandem Repeats found using the optimized Stoye-Gusfield algorithm: " + str(len(tandem_repeats)))
+            tr_lr = left_rotation(tandem_repeats, sequence)
+            print("Number of Tandem Repeats found using the optimized Stoye-Gusfield algorithm: " + str(len(tr_lr)))
             #print("Tandem Repeats found using the optimized Stoye-Gusfield algorithm: " + str(tandem_repeats))
             final_time = end_time - start_time
-            return tandem_repeats, final_time
+            return tr_lr, final_time
 
 
 def main(algorithm: str, sequence: str):
