@@ -1,4 +1,3 @@
-from suffixtree import NaiveSuffixTree
 from node import Node
 
 def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
@@ -17,7 +16,7 @@ def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
             suffix_list.append(depthfirst_to_suffix[index])
     else:
         return
-    
+
     for i in suffix_list:
         for j in suffix_list:
             if i < j and j == i + node.string_depth and sequence[i] != sequence[i + 2 * node.string_depth] and node.string_depth > 1:
@@ -32,23 +31,25 @@ def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
 
     if node.children:
         for child in node.children.values():
+            print("goes wrong here maybe basic")
             returned_tandem_repeats = basic_stoye_gusfield(child, depthfirst_to_suffix, sequence, testing)
             if returned_tandem_repeats != None and returned_tandem_repeats != []:
                 tandem_repeat_list = tandem_repeat_list + returned_tandem_repeats
 
-    return tandem_repeat_list
+    print("before left rotation")
+    tr_lr = left_rotation(tandem_repeat_list, sequence)
 
-
-
+    return tr_lr
 
 
 def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
 
     # if we are in a leaf there are no tandem repeats to find and no children to call recursively
     if node.type == "leaf":
+        print(r"eturn from leaf")
         if testing: print('I am a leaf : ' + str(node))
         return
-    
+
     if testing: print('str(node) = ' + str(node))
 
     # create empty list for tandem repeats
@@ -82,7 +83,7 @@ def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
     depth_max = node.depth_first[1] # the maximum depth for the internal node
     for index in range(depth_min, depth_max+1):
         full_suffix_list.append(depthfirst_to_suffix[index])
-    
+
     # get small suffix/leaf list
     small_suffix_list = [x for x in full_suffix_list if x not in large_suffix_list]
 
@@ -96,11 +97,14 @@ def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
 
     if node.children:
         for child in node.children.values():
+            print("goes wrong here maybe opt")
             returned_tandem_repeats = stoye_gusfield(child, depthfirst_to_suffix, sequence, testing)
             if returned_tandem_repeats != None and returned_tandem_repeats != []:
                 tandem_repeat_list = tandem_repeat_list + returned_tandem_repeats
+    print("before left rotation")
+    tr_lr = left_rotation(tandem_repeat_list, sequence)
 
-    return tandem_repeat_list
+    return tr_lr
 
 
 def left_rotation(tandem_repeats, sequence):
@@ -109,9 +113,11 @@ def left_rotation(tandem_repeats, sequence):
         i = tr[0] - 1
         j = i  + 2 * tr[1]
         while sequence[i] == sequence[j]:
-            rotated_tr.append([i, tr[1]])
+            if [i, tr[1]] not in tandem_repeats:
+                rotated_tr.append([i, tr[1]])
             i-=1
             j-=1
+    print("done left rotation")
     return tandem_repeats + rotated_tr
 
 

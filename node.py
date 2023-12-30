@@ -10,7 +10,7 @@ class Node:
         self.parent = parent
 
     def __str__(self):
-        return f"{self.suffix}: {self.depth_first}"
+        return f"{self.suffix}: {self.type}"
 
     def print_tree(self, level=0):
         print('\t' * level + repr(self.suffix) + ": " + repr(self.depth_first))
