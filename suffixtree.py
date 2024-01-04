@@ -104,8 +104,8 @@ class NaiveSuffixTree:
             print(suffix_to_depthfirst)
             print("\n")
 
-        #string_depth(Tree, testing)
-        string_depth_loop(Tree, testing)
+        string_depth(Tree, testing)
+        #string_depth_loop(Tree, testing)
 
         if arrays:
             #print("tree done in array")

@@ -13,7 +13,7 @@ class Node:
         return f"{self.suffix}: {self.type}"
 
     def print_tree(self, level=0):
-        print('\t' * level + repr(self.suffix) + ": " + repr(self.depth_first))
+        print('\t' * level + repr(self.suffix) + ": " + repr(self.depth_first) + ", " + repr(self.string_depth))
         for child in self.children.values():
             child.print_tree(level + 1)
 
@@ -22,7 +22,7 @@ class Node:
         elbow = "   └── "
         pipe = "   │  "
         tee = "   ├── "
-        repr_suffix = repr(self.suffix) + ": " + repr(self.depth_first)
+        repr_suffix = repr(self.suffix) + ": " + repr(self.depth_first) + ", " + repr(self.string_depth)
         print(repr_suffix) if self.type == "root" else print(header + (elbow if last else tee) + repr_suffix)
         for i, child in enumerate(self.children.values()):
             child.print_tree_lines(level + 1, last=(i == len(self.children) - 1),
