@@ -1,6 +1,6 @@
 from suffixtree import NaiveSuffixTree
 from stoye_gusfield_algorithm import basic_stoye_gusfield, stoye_gusfield, stupid_algorithm, left_rotation
-from loopdy_loop import basic_stoye_gusfield_loopy, stoye_gusfield_loopy
+from sg_iteration import basic_stoye_gusfield_loopy, stoye_gusfield_loopy
 from dict_to_list import dict_to_list
 import time
 

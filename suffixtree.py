@@ -1,6 +1,6 @@
 from node import Node, make_new_leaf, make_new_internal_node
 from depth import full_depth_first_and_array, string_depth
-from loopdy_loop import full_depth_first_and_array_loop, string_depth_loop
+from sg_iteration import full_depth_first_and_array_loop, string_depth_loop
 
 
 class NaiveSuffixTree:
@@ -19,7 +19,7 @@ class NaiveSuffixTree:
         # Variables needed
         current_node = Tree
         Nodes = 1
-        #print("making Tree")
+        
         # Testing Print Statements
         if testing: print("Sequence: \n" + self.sequence + "\nSequence length: " + str(len_seq) + "\n")
 
@@ -108,7 +108,6 @@ class NaiveSuffixTree:
         #string_depth_loop(Tree, testing)
 
         if arrays:
-            #print("tree done in array")
             return Tree, depthfirst_to_suffix, suffix_to_depthfirst
 
         return Tree

@@ -153,6 +153,10 @@ def defined_test_sequences():
             )
     test_seq.append(rand)
 
+    print(len(a))
+    print(len(fibo))
+    print(len(rand))
+
     return test_seq
 
 

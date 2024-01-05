@@ -10,7 +10,7 @@
 from math import inf as inf
 from node import Node
 from collections import deque
-#from stoye_gusfield_algorithm import left_rotation
+
 
 # Create the array
 def full_depth_first_and_array_loop(node: Node, testing=False):
@@ -25,7 +25,6 @@ def full_depth_first_and_array_loop(node: Node, testing=False):
 
     while len(stack) > 0:
         current_node = stack.pop()
-        #print(current_node)
         if current_node.type == "internal" or current_node.type == "root":
             if current_node.suffix not in visited:
                 current_node.depth_first = [inf, -inf]
@@ -35,7 +34,6 @@ def full_depth_first_and_array_loop(node: Node, testing=False):
                     child_node = current_node.children.get(child)
                     stack.append(child_node)
                 visited.add(current_node.suffix)
-               #depth_number += 1
             else:
                 current_node.depth_first = [inf, -inf]
                 for child in current_node.children:
@@ -51,7 +49,6 @@ def full_depth_first_and_array_loop(node: Node, testing=False):
                             current_node.depth_first[0] = new_depth
                         if new_depth > current_node.depth_first[1]:
                             current_node.depth_first[1] = new_depth
-                #depth_number -= 1
         elif current_node.type == "leaf":
             # Do leaf stuff
             depth_to_suffix[depth_number] = current_node.suffix
@@ -87,7 +84,7 @@ def string_depth_loop(node, testing=False):
         if testing:
             print("current node : " + repr(current_node.suffix))
             print("current string depth: " + str(current_node.string_depth))
-    #print("done with string depth")
+
 
 # --------------------------------------------------------------------------------------
 
@@ -137,16 +134,6 @@ def basic_stoye_gusfield_loopy(node: Node, depthfirst_to_suffix_list, sequence, 
                     tandem_repeat_list.append(tandem_repeat)
                     if testing: print('the list!!! : ' + str(tandem_repeat_list))
 
-    #if node.children:
-    #    for child in node.children.values():
-    #        print("goes wrong here maybe basic")
-    #        returned_tandem_repeats = basic_stoye_gusfield(child, depthfirst_to_suffix_list, sequence, testing)
-    #        if returned_tandem_repeats != None and returned_tandem_repeats != []:
-    #            tandem_repeat_list = tandem_repeat_list + returned_tandem_repeats
-
-    #print("before left rotation")
-    #tr_lr = left_rotation(tandem_repeat_list, sequence)
-
     return tandem_repeat_list
 
 
@@ -186,7 +173,6 @@ def stoye_gusfield_loopy(node: Node, depthfirst_to_suffix_list, sequence, testin
             if testing : print('current child : ' + str(child))
             # if child.type != 'leaf':
             # we use min and max of depth_first to calculate the length of the childs range
-            # print('depth_first : ' + str(child.depth_first))
             child_length = (child.depth_first[1] - child.depth_first[0] + 1)
             if child_length >= length_large_leaf_list or large_leaf_list == None:
                 large_leaf_list = child.depth_first
@@ -209,12 +195,7 @@ def stoye_gusfield_loopy(node: Node, depthfirst_to_suffix_list, sequence, testin
         if testing : print('full suffix list : ' + str(full_suffix_list))
 
         # get small suffix/leaf list
-        #small_suffix_list = [x for x in full_suffix_list if x not in large_suffix_list]
         small_suffix_list = [x for x in full_suffix_list if x not in large_suffix_list]
-        # for x in full_suffix_list:
-        #     #print("x in full index to make small")
-        #     if x not in large_suffix_list:
-        #         small_suffix_list.append(x)
         if testing : print('small suffix list : ' + str(small_suffix_list))
 
         if current_node.string_depth > 1:
@@ -225,9 +206,5 @@ def stoye_gusfield_loopy(node: Node, depthfirst_to_suffix_list, sequence, testin
                     i + current_node.string_depth]:
                     tandem_repeat_list.append([i - current_node.string_depth, current_node.string_depth])
             if testing: print('tandem repeats list : ' + str(tandem_repeat_list))
-
-
-    #print("before left rotation")
-    #tr_lr = left_rotation(tandem_repeat_list, sequence)
 
     return tandem_repeat_list

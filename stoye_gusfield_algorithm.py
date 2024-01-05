@@ -48,9 +48,6 @@ def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
             if returned_tandem_repeats != None and returned_tandem_repeats != []:
                 tandem_repeat_list = tandem_repeat_list + returned_tandem_repeats
 
-    # print("before left rotation")
-    # tr_lr = left_rotation(tandem_repeat_list, sequence)
-
     return tandem_repeat_list
 
 
@@ -75,7 +72,6 @@ def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
     for child in node.children.values():
         # if child.type != 'leaf':
         # we use min and max of depth_first to calculate the length of the childs range
-        #print('depth_first : ' + str(child.depth_first))
         child_length = (child.depth_first[1] - child.depth_first[0] + 1)
         if child_length >= length_large_leaf_list or large_leaf_list == None:
             large_leaf_list = child.depth_first
