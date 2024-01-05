@@ -1,5 +1,5 @@
 from suffixtree import NaiveSuffixTree
-from stoye_gusfield_algorithm import basic_stoye_gusfield, stoye_gusfield, left_rotation, stupid_algorithm
+from stoye_gusfield_algorithm import basic_stoye_gusfield, stoye_gusfield, left_rotation, naive_algorithm
 
 test_seq_1 = "banana$"
 test_seq_2 = "cgtaacaagg$"
@@ -17,7 +17,7 @@ naiveSuffixTree.print_tree_lines()
 
 # optimised_tr = stoye_gusfield(naiveSuffixTree, depthfirst_to_suffix, test_seq_5, False)
 
-print(stupid_algorithm(test_seq_5))
+print(naive_algorithm(test_seq_5))
 
 basic_tr = (basic_stoye_gusfield(naiveSuffixTree, depthfirst_to_suffix, test_seq_5, False))
 

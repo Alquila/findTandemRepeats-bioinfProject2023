@@ -130,7 +130,7 @@ def left_rotation(tandem_repeats, sequence):
 
 
 
-def stupid_algorithm(sequence):
+def naive_algorithm(sequence):
     tandem_repeats = []
     for i in range(0, len(sequence)-1):
         for j in range(i+2, len(sequence)-1):

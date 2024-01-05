@@ -13,7 +13,7 @@ def defined_test_sequences_small():
 
 
 def test_loopdy_loop():
-    algorithms = ["stupid", "basic", "optimized"]
+    algorithms = ["naive", "basic", "optimized"]
     tr_list = []
 
     for alg in algorithms:
@@ -24,12 +24,12 @@ def test_loopdy_loop():
 
 
 def running_times():
-    stupid_alg_times = []
+    naive_alg_times = []
     basic_sg_times = []
     optimised_sq_times = []
 
     test_sequences = defined_test_sequences()
-    algorithms = ["stupid", "basic", "optimized"]
+    algorithms = ["naive", "basic", "optimized"]
 
     for test_seq in test_sequences:
         for alg in algorithms:
@@ -40,24 +40,24 @@ def running_times():
             final_time = end_time - start_time
             match i:
                 case 0:
-                    stupid_alg_times.append(final_time)
+                    naive_alg_times.append(final_time)
                 case 1:
                     basic_sg_times.append(final_time)
                 case 2:
                     optimised_sq_times.append(final_time)
             i += 1
 
-    return stupid_alg_times, basic_sg_times, optimised_sq_times
+    return naive_alg_times, basic_sg_times, optimised_sq_times
 
 
 def running_times_wo_tree():
-    stupid_alg_times = []
+    naive_alg_times = []
     basic_sg_times = []
     optimised_sq_times = []
 
     test_sequences = defined_test_sequences()
-    algorithms = ["stupid", "basic", "optimized"]
-    #algorithms = ["stupid", "optimized"]
+    algorithms = ["naive", "basic", "optimized"]
+    #algorithms = ["naive", "optimized"]
     #algorithms = ["optimized"]
 
     tr_list = []
@@ -69,14 +69,14 @@ def running_times_wo_tree():
             tr_list.append(tr)
             match i:
                 case 0:
-                    stupid_alg_times.append(final_time)
+                    naive_alg_times.append(final_time)
                 case 1:
                     basic_sg_times.append(final_time)
                 case 2:
                     optimised_sq_times.append(final_time)
             i += 1
     #assert tr_list[0] == tr_list[1] == tr_list[2]
-    return stupid_alg_times, basic_sg_times, optimised_sq_times
+    return naive_alg_times, basic_sg_times, optimised_sq_times
 
 
 def test_running_time():
