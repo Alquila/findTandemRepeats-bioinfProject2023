@@ -10,7 +10,7 @@
 from math import inf as inf
 from node import Node
 import sys
-sys.setrecursionlimit(7000)
+sys.setrecursionlimit(11000)
 
 
 # Name depth

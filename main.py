@@ -42,14 +42,13 @@ def main_time(algorithm: str, sequence: str):
             #print("Tandem Repeats found using the N^3 algorithm: " + str(TR))
             print("Number of Tandem Repeats found using the N^3 algorithm: " + str(len(TR)))
             final_time = end_time - start_time
-            #print("done with stupid")
+            print("done with stupid w. final time: " + str(final_time))
             return TR, final_time
         case "basic":
             tree_struct = NaiveSuffixTree(sequence)
             suffixtree, depthfirst_to_suffix, _ = tree_struct.build_tree(False, True)
             print("made tree for basic")
-            depthfirst_to_suffix_list = dict_to_list(depthfirst_to_suffix)
-            #suffixtree.print_tree()
+            #depthfirst_to_suffix_list = dict_to_list(depthfirst_to_suffix)
             start_time = time.time_ns()
             tandem_repeats = basic_stoye_gusfield(suffixtree, depthfirst_to_suffix, sequence, False)
             #tandem_repeats = basic_stoye_gusfield_loopy(suffixtree, depthfirst_to_suffix_list, sequence, False)
@@ -58,7 +57,7 @@ def main_time(algorithm: str, sequence: str):
             #print("Tandem Repeats found using the basic Stoye-Gusfield algorithm: " + str(tandem_repeats))
             print("Number of Tandem Repeats found using the basic Stoye-Gusfield algorithm: " + str(len(tr_lr)))
             final_time = end_time - start_time
-            print("done w. basic")
+            print("done with basic w. final time: " + str(final_time))
             return tr_lr, final_time
         case "optimized":
             tree_struct = NaiveSuffixTree(sequence)
@@ -74,6 +73,7 @@ def main_time(algorithm: str, sequence: str):
             print("Number of Tandem Repeats found using the optimized Stoye-Gusfield algorithm: " + str(len(tr_lr)))
             #print("Tandem Repeats found using the optimized Stoye-Gusfield algorithm: " + str(tandem_repeats))
             final_time = end_time - start_time
+            print("done with optimised w. final time: " + str(final_time))
             return tr_lr, final_time
 
 
