@@ -9,6 +9,8 @@
 
 from math import inf as inf
 from node import Node
+import sys
+sys.setrecursionlimit(11000)
 
 
 # Name depth
@@ -102,7 +104,11 @@ def full_depth_first_and_array(Node, depth_to_suffix, suffix_to_depth, depth_num
         Node.depth_first = [inf, -inf]
         for child in children:
             current_node = Node.children[child]
-            new_number, depth_number, depth_to_suffix, suffix_to_depth = full_depth_first_and_array(current_node, depth_to_suffix, suffix_to_depth, depth_number, testing)
+            new_number, depth_number, depth_to_suffix, suffix_to_depth = full_depth_first_and_array(current_node,
+                                                                                                    depth_to_suffix,
+                                                                                                    suffix_to_depth,
+                                                                                                    depth_number,
+                                                                                                    testing)
             if type(new_number) is list:
                 if new_number[0] < Node.depth_first[0]:
                     Node.depth_first[0] = new_number[0]
@@ -126,6 +132,7 @@ def full_depth_first_and_array(Node, depth_to_suffix, suffix_to_depth, depth_num
     return depth_number - 1, depth_number, depth_to_suffix, suffix_to_depth
 
 # --------------------------------------------------------------------------------------
+
 
 # Name string depth
 def string_depth(node, testing=False):

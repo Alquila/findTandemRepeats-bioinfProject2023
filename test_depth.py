@@ -8,7 +8,7 @@ from depth import full_depth_first_and_array
 
 # our test sequence
 #test_seq = "abaabaabbba$"
-test_seq = "banana$"
+test_seq = "banana&"
 #test_seq = "cgtaaca$"
 
 # Feed it to the suffix tree
@@ -22,12 +22,12 @@ naiveSuffixTree = treeStruct.build_tree(False, False)
 #leaves_depth_first(naiveSuffixTree, testing=True)
 
 # Check the full depth first function
-full_depth_first(naiveSuffixTree, testing=False)
-naiveSuffixTree.print_tree()
+#full_depth_first(naiveSuffixTree, testing=False)
+#naiveSuffixTree.print_tree()
 
 # Check the full depth first and array function
-#full_depth_first_and_array(naiveSuffixTree, testing=True)
+full_depth_first_and_array(naiveSuffixTree, testing=True)
 
 # Check the depth first function
-string_depth(naiveSuffixTree, testing=False)
+string_depth(naiveSuffixTree, testing=True)
 naiveSuffixTree.print_tree_lines()

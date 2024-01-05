@@ -1,8 +1,10 @@
-from suffixtree import NaiveSuffixTree
 from node import Node
 
 def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
-    if testing: print('str(node) = ' + str(node))
+    if testing: 
+        print('str(node) = ' + str(node))
+        node.print_tree_lines()
+        print(str(node.depth_first) + " " + str(node.string_depth))
 
     # create empty list for tandem repeats
     tandem_repeat_list = []
@@ -10,6 +12,7 @@ def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
     # get suffix/leaf list
     suffix_list = [] # This corresponds to the LL(v) in the slides
     depthfirst_list = node.depth_first # if it is an internal node or the root this is a min-max range
+    if testing: print(depthfirst_list)
     if node.type != "leaf":
         depth_min = depthfirst_list[0] # the minimum depth for the internal node
         depth_max = depthfirst_list[1] # the maximum depth for the internal node
@@ -17,14 +20,23 @@ def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
             suffix_list.append(depthfirst_to_suffix[index])
     else:
         return
-    
-    for i in suffix_list:
-        for j in suffix_list:
+
+    suffix_list = sorted(suffix_list)
+
+    if testing: print('suffix list : ' + str(suffix_list))
+
+    for i_idx in range(len(suffix_list)):
+        i = suffix_list[i_idx]
+        if testing:
+            print('idx i : ' + str(i_idx))
+            print('i : ' + str(i))
+        for j_idx in range(len(suffix_list)):
+            j = suffix_list[j_idx]
+            if testing:
+                print('inx j : ' + str(j_idx))
+                print('j : ' + str(j))
+                print("string depth : " + str(node.string_depth))
             if i < j and j == i + node.string_depth and sequence[i] != sequence[i + 2 * node.string_depth] and node.string_depth > 1:
-                if testing:
-                    print('here is i < j and j == i + |a| and S[i] != S[i+2*|a|]')
-                    print('i : ' + str(i))
-                    print('j : ' + str(j))
                 tandem_repeat = [i, node.string_depth]
                 if testing: print('!!!' + str(tandem_repeat))
                 tandem_repeat_list.append(tandem_repeat)
@@ -39,16 +51,14 @@ def basic_stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
     return tandem_repeat_list
 
 
-
-
-
 def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
 
     # if we are in a leaf there are no tandem repeats to find and no children to call recursively
     if node.type == "leaf":
+        print(r"eturn from leaf")
         if testing: print('I am a leaf : ' + str(node))
         return
-    
+
     if testing: print('str(node) = ' + str(node))
 
     # create empty list for tandem repeats
@@ -62,7 +72,6 @@ def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
     for child in node.children.values():
         # if child.type != 'leaf':
         # we use min and max of depth_first to calculate the length of the childs range
-        #print('depth_first : ' + str(child.depth_first))
         child_length = (child.depth_first[1] - child.depth_first[0] + 1)
         if child_length >= length_large_leaf_list or large_leaf_list == None:
             large_leaf_list = child.depth_first
@@ -82,7 +91,7 @@ def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
     depth_max = node.depth_first[1] # the maximum depth for the internal node
     for index in range(depth_min, depth_max+1):
         full_suffix_list.append(depthfirst_to_suffix[index])
-    
+
     # get small suffix/leaf list
     small_suffix_list = [x for x in full_suffix_list if x not in large_suffix_list]
 
@@ -96,11 +105,14 @@ def stoye_gusfield(node: Node, depthfirst_to_suffix, sequence, testing):
 
     if node.children:
         for child in node.children.values():
+            print("goes wrong here maybe opt")
             returned_tandem_repeats = stoye_gusfield(child, depthfirst_to_suffix, sequence, testing)
             if returned_tandem_repeats != None and returned_tandem_repeats != []:
                 tandem_repeat_list = tandem_repeat_list + returned_tandem_repeats
+    print("before left rotation")
+    tr_lr = left_rotation(tandem_repeat_list, sequence)
 
-    return tandem_repeat_list
+    return tr_lr
 
 
 def left_rotation(tandem_repeats, sequence):
@@ -109,14 +121,16 @@ def left_rotation(tandem_repeats, sequence):
         i = tr[0] - 1
         j = i  + 2 * tr[1]
         while sequence[i] == sequence[j]:
-            rotated_tr.append([i, tr[1]])
+            if [i, tr[1]] not in tandem_repeats:
+                rotated_tr.append([i, tr[1]])
             i-=1
             j-=1
+    print("done left rotation")
     return tandem_repeats + rotated_tr
 
 
 
-def stupid_algorithm(sequence):
+def naive_algorithm(sequence):
     tandem_repeats = []
     for i in range(0, len(sequence)-1):
         for j in range(i+2, len(sequence)-1):
